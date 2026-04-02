@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "essabu"
-version = "0.1.0"
+version = "0.1.1"
 description = "Official Python SDK for Essabu - Unified SaaS billing, accounting, HR, and business platform"
 readme = "README.md"
 license = {text = "MIT"}
