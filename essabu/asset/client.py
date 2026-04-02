@@ -8,12 +8,12 @@ from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
     from essabu.asset.api.assets import AssetApi
-    from essabu.asset.api.vehicles import VehicleApi
     from essabu.asset.api.depreciations import DepreciationApi
     from essabu.asset.api.fuel_logs import FuelLogApi
     from essabu.asset.api.maintenance_logs import MaintenanceLogApi
     from essabu.asset.api.maintenance_schedules import MaintenanceScheduleApi
     from essabu.asset.api.trip_logs import TripLogApi
+    from essabu.asset.api.vehicles import VehicleApi
 
 
 class AssetClient:

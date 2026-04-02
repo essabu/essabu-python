@@ -38,7 +38,10 @@ class TestIdentityUsers:
     @respx.mock
     def test_list_users(self, client):
         respx.get("https://api.test.com/api/identity/users").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "u-1"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "u-1"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.identity.users.list()
         assert len(result.data) == 1

@@ -56,7 +56,10 @@ class TestSubscriptions:
     @respx.mock
     def test_list_subscriptions(self, client):
         respx.get("https://api.test.com/api/payment/subscriptions").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "sub-1"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "sub-1"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.payment.subscriptions.list()
         assert len(result.data) == 1

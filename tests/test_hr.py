@@ -86,7 +86,10 @@ class TestHRPayroll:
     @respx.mock
     def test_list_payroll(self, client):
         respx.get("https://api.test.com/api/hr/payroll").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "p1"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "p1"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.hr.payroll.list()
         assert len(result.data) == 1

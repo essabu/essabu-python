@@ -7,38 +7,38 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
+    from essabu.accounting.api.commercial.insurance_claim_api import InsuranceClaimApi
+    from essabu.accounting.api.commercial.insurance_contract_api import InsuranceContractApi
+    from essabu.accounting.api.commercial.insurance_partner_api import InsurancePartnerApi
+    from essabu.accounting.api.commercial.price_list_api import PriceListApi
+    from essabu.accounting.api.commercial.price_list_override_api import PriceListOverrideApi
     from essabu.accounting.api.core.account_api import AccountApi
     from essabu.accounting.api.core.balance_api import BalanceApi
     from essabu.accounting.api.core.config_api import ConfigApi
-    from essabu.accounting.api.transactions.invoice_api import InvoiceApi
-    from essabu.accounting.api.transactions.payment_api import PaymentApi
-    from essabu.accounting.api.transactions.journal_api import JournalApi
-    from essabu.accounting.api.transactions.journal_entry_api import JournalEntryApi
-    from essabu.accounting.api.transactions.credit_note_api import CreditNoteApi
-    from essabu.accounting.api.transactions.payment_term_api import PaymentTermApi
-    from essabu.accounting.api.transactions.quote_api import QuoteApi
-    from essabu.accounting.api.finance.wallet_api import WalletApi
-    from essabu.accounting.api.finance.wallet_transaction_api import WalletTransactionApi
     from essabu.accounting.api.finance.currency_api import CurrencyApi
     from essabu.accounting.api.finance.exchange_rate_api import ExchangeRateApi
     from essabu.accounting.api.finance.exchange_rate_provider_api import ExchangeRateProviderApi
     from essabu.accounting.api.finance.fiscal_year_api import FiscalYearApi
     from essabu.accounting.api.finance.period_api import PeriodApi
-    from essabu.accounting.api.finance.tax_rate_api import TaxRateApi
     from essabu.accounting.api.finance.report_api import ReportApi
-    from essabu.accounting.api.inventory.inventory_api import InventoryApi
+    from essabu.accounting.api.finance.tax_rate_api import TaxRateApi
+    from essabu.accounting.api.finance.wallet_api import WalletApi
+    from essabu.accounting.api.finance.wallet_transaction_api import WalletTransactionApi
     from essabu.accounting.api.inventory.batch_api import BatchApi
+    from essabu.accounting.api.inventory.inventory_api import InventoryApi
     from essabu.accounting.api.inventory.purchase_order_api import PurchaseOrderApi
     from essabu.accounting.api.inventory.stock_count_api import StockCountApi
     from essabu.accounting.api.inventory.stock_location_api import StockLocationApi
     from essabu.accounting.api.inventory.stock_movement_api import StockMovementApi
     from essabu.accounting.api.inventory.supplier_api import SupplierApi
     from essabu.accounting.api.inventory.webhook_api import WebhookApi
-    from essabu.accounting.api.commercial.insurance_claim_api import InsuranceClaimApi
-    from essabu.accounting.api.commercial.insurance_contract_api import InsuranceContractApi
-    from essabu.accounting.api.commercial.insurance_partner_api import InsurancePartnerApi
-    from essabu.accounting.api.commercial.price_list_api import PriceListApi
-    from essabu.accounting.api.commercial.price_list_override_api import PriceListOverrideApi
+    from essabu.accounting.api.transactions.credit_note_api import CreditNoteApi
+    from essabu.accounting.api.transactions.invoice_api import InvoiceApi
+    from essabu.accounting.api.transactions.journal_api import JournalApi
+    from essabu.accounting.api.transactions.journal_entry_api import JournalEntryApi
+    from essabu.accounting.api.transactions.payment_api import PaymentApi
+    from essabu.accounting.api.transactions.payment_term_api import PaymentTermApi
+    from essabu.accounting.api.transactions.quote_api import QuoteApi
 
 
 class AccountingClient:

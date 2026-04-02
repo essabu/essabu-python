@@ -7,29 +7,29 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
-    from essabu.hr.api.employees import EmployeeApi
-    from essabu.hr.api.contracts import ContractApi
-    from essabu.hr.api.leaves import LeaveApi
-    from essabu.hr.api.payroll import PayrollApi
-    from essabu.hr.api.shifts import ShiftApi
-    from essabu.hr.api.shift_schedules import ShiftScheduleApi
-    from essabu.hr.api.recruitment import RecruitmentApi
-    from essabu.hr.api.performance import PerformanceApi
     from essabu.hr.api.attendance import AttendanceApi
     from essabu.hr.api.benefits import BenefitApi
+    from essabu.hr.api.config_api import ConfigApi
+    from essabu.hr.api.contracts import ContractApi
     from essabu.hr.api.departments import DepartmentApi
+    from essabu.hr.api.disciplinary import DisciplinaryApi
     from essabu.hr.api.documents import DocumentApi
+    from essabu.hr.api.employees import EmployeeApi
     from essabu.hr.api.expenses import ExpenseApi
+    from essabu.hr.api.history import HistoryApi
+    from essabu.hr.api.leaves import LeaveApi
     from essabu.hr.api.loans import LoanApi
     from essabu.hr.api.onboarding import OnboardingApi
+    from essabu.hr.api.payroll import PayrollApi
+    from essabu.hr.api.performance import PerformanceApi
     from essabu.hr.api.positions import PositionApi
+    from essabu.hr.api.recruitment import RecruitmentApi
+    from essabu.hr.api.reports import ReportApi
+    from essabu.hr.api.shift_schedules import ShiftScheduleApi
+    from essabu.hr.api.shifts import ShiftApi
     from essabu.hr.api.skills import SkillApi
     from essabu.hr.api.timesheets import TimesheetApi
     from essabu.hr.api.training import TrainingApi
-    from essabu.hr.api.disciplinary import DisciplinaryApi
-    from essabu.hr.api.history import HistoryApi
-    from essabu.hr.api.config_api import ConfigApi
-    from essabu.hr.api.reports import ReportApi
     from essabu.hr.api.webhooks import WebhookApi
 
 

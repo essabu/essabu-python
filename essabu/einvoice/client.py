@@ -7,11 +7,11 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
+    from essabu.einvoice.api.compliance import ComplianceApi
     from essabu.einvoice.api.invoices import InvoiceApi
+    from essabu.einvoice.api.statistics import StatisticApi
     from essabu.einvoice.api.submissions import SubmissionApi
     from essabu.einvoice.api.verification import VerificationApi
-    from essabu.einvoice.api.compliance import ComplianceApi
-    from essabu.einvoice.api.statistics import StatisticApi
 
 
 class EInvoiceClient:
