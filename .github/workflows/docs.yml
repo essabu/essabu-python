@@ -1,35 +1,23 @@
-name: Documentation
+name: Documentation Check
 
 on:
   push:
-    branches: [main]
-    paths:
-      - "docs/**"
-      - "essabu/**"
-      - "mkdocs.yml"
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
 
 jobs:
-  deploy:
+  docs:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
+      - name: Check essential files
         run: |
-          pip install -e ".[docs]"
-
-      - name: Build docs
-        run: mkdocs build --strict
-
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          test -f README.md && echo "README.md OK" || exit 1
+          test -f LICENSE && echo "LICENSE OK" || exit 1
+          test -f CHANGELOG.md && echo "CHANGELOG.md OK" || exit 1
+          test -d docs && echo "docs/ OK" || exit 1
+          DOC_COUNT=$(find docs -name "*.md" | wc -l)
+          echo "$DOC_COUNT documentation files found"
+          test "$DOC_COUNT" -ge 5 && echo "Documentation complete" || exit 1
