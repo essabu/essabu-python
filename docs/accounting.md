@@ -63,7 +63,7 @@ Full accounting suite: chart of accounts, journal entries, invoices, payments, w
 
 ## Standard CRUD Methods
 
-All resource classes share these methods:
+All resource classes share these methods. The `list` method returns a `PageResponse` with pagination metadata. The `list_all` method returns a generator that automatically fetches all pages. The `create` and `update` methods accept keyword arguments matching the resource fields. The `delete` method performs a soft delete and returns a confirmation dictionary.
 
 ```python
 list(*, page: int = 1, page_size: int = 25, **filters: Any) -> PageResponse
@@ -76,6 +76,8 @@ delete(resource_id: str) -> dict[str, Any]
 
 ## ReportApi Extra Methods
 
+The `ReportApi` provides specialized methods for generating standard financial statements. Each method accepts keyword arguments for date ranges and filtering criteria. The `balance_sheet` method requires a `date` parameter. The `income_statement`, `trial_balance`, and `cash_flow` methods accept `start_date` and `end_date` to define the reporting period. All methods return a dictionary containing the structured report data.
+
 ```python
 balance_sheet(**params: Any) -> dict[str, Any]       # GET /api/accounting/reports/balance-sheet
 income_statement(**params: Any) -> dict[str, Any]    # GET /api/accounting/reports/income-statement
@@ -86,6 +88,8 @@ cash_flow(**params: Any) -> dict[str, Any]           # GET /api/accounting/repor
 ## Code Examples
 
 ### Chart of Accounts
+
+List, create, and update accounts in the chart of accounts. The `create` method requires `code` (unique account number), `name`, `type` (one of `"asset"`, `"liability"`, `"equity"`, `"revenue"`, `"expense"`), and `currency`. Returns the created account with its generated `id`. Throws `ConflictError` if the account code already exists.
 
 ```python
 from essabu import Essabu
@@ -104,6 +108,8 @@ client.accounting.accounts.update("acc-uuid", name="Updated Name")
 
 ### Journal Entries
 
+Create a double-entry journal entry with balanced debit and credit lines. The `journal_id` references the target journal, `date` is the posting date, and `reference` is a human-readable identifier. The `lines` list must contain at least two entries where total debits equal total credits. Throws `ValidationError` if the entry is unbalanced or references invalid account IDs.
+
 ```python
 entry = client.accounting.journal_entries.create(
     journal_id="journal-uuid",
@@ -117,6 +123,8 @@ entry = client.accounting.journal_entries.create(
 ```
 
 ### Invoices and Payments
+
+Create a sales invoice and record a payment against it. The invoice `create` method requires `customer_id`, `due_date`, and a list of line items with `description`, `quantity`, and `unit_price`. The payment `create` method links the payment to the invoice via `invoice_id` and records the `amount`, `method`, and `date`. Partial payments are supported; the invoice status updates automatically based on total payments received.
 
 ```python
 invoice = client.accounting.invoices.create(
@@ -134,6 +142,8 @@ payment = client.accounting.payments.create(
 
 ### Financial Reports
 
+Generate standard financial reports for a given date or period. The `balance_sheet` method provides a snapshot of assets, liabilities, and equity at a specific date. The `income_statement` summarizes revenue and expenses over a date range. The `trial_balance` lists all account balances, and the `cash_flow` report tracks cash inflows and outflows. All methods return structured dictionaries with categorized line items and totals.
+
 ```python
 bs = client.accounting.reports.balance_sheet(date="2026-03-31")
 pnl = client.accounting.reports.income_statement(start_date="2026-01-01", end_date="2026-03-31")
@@ -143,6 +153,8 @@ cf = client.accounting.reports.cash_flow(start_date="2026-01-01", end_date="2026
 
 ### Wallets
 
+List, create, and query digital wallets and their transactions. A wallet is a virtual account used for internal fund tracking. The `create` method requires a `name` and `currency`. Use `wallet_transactions.list` with a `wallet_id` filter to retrieve the transaction history for a specific wallet. Each transaction includes amount, type (credit/debit), and timestamp.
+
 ```python
 wallets = client.accounting.wallets.list()
 wallet = client.accounting.wallets.create(name="Main Wallet", currency="USD")
@@ -150,6 +162,8 @@ txns = client.accounting.wallet_transactions.list(wallet_id="wallet-uuid")
 ```
 
 ### Fiscal Years
+
+Create and manage fiscal year periods. The `create` method requires a `name`, `start_date`, and `end_date` defining the fiscal year boundaries. Only one fiscal year can be active at a time. Closing a fiscal year generates closing entries and prevents further postings to that period. Throws `ConflictError` if the date range overlaps with an existing fiscal year.
 
 ```python
 fy = client.accounting.fiscal_years.create(

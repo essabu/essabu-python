@@ -191,7 +191,7 @@ Fixed asset and fleet management.
 
 ## Common API Pattern
 
-Every resource supports the standard CRUD operations:
+Every resource supports the standard CRUD operations. The `list` method returns a paginated `PageResponse` with `data`, `total`, `page`, and navigation helpers. The `list_all` method returns a generator that fetches every page automatically. The `create` and `update` methods accept keyword arguments matching the API resource fields. The `delete` method performs a soft delete and returns a confirmation dictionary.
 
 ```python
 # List (paginated)

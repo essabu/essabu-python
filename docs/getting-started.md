@@ -2,6 +2,8 @@
 
 ## Installation
 
+Install the Essabu Python SDK from PyPI using your preferred package manager. The SDK requires Python 3.10 or higher and depends on `httpx` and `pydantic`. No additional configuration is needed after installation.
+
 ```bash
 pip install essabu
 ```
@@ -11,6 +13,8 @@ pip install essabu
 The SDK requires an API key and tenant ID. You can provide them explicitly or via environment variables.
 
 ### Explicit configuration
+
+Create an Essabu client by passing your API key and tenant ID directly as constructor arguments. The `api_key` parameter accepts either a live key (prefixed `esa_live_`) or a test key (prefixed `esa_test_`). The `tenant_id` identifies the organization whose data you want to access. Both parameters are required unless set via environment variables.
 
 ```python
 from essabu import Essabu
@@ -23,10 +27,14 @@ client = Essabu(
 
 ### Environment variables
 
+Set the `ESSABU_API_KEY` and `ESSABU_TENANT_ID` environment variables in your shell or `.env` file. These are read automatically when no explicit arguments are provided to the constructor. This approach is recommended for production deployments to avoid hardcoding secrets in source code.
+
 ```bash
 export ESSABU_API_KEY=esa_live_your_api_key
 export ESSABU_TENANT_ID=your-tenant-id
 ```
+
+When environment variables are set, the client can be instantiated with no arguments. All configuration values are loaded from the corresponding environment variables automatically. Missing required values raise a `ConfigurationError` at instantiation time.
 
 ```python
 from essabu import Essabu
@@ -45,6 +53,8 @@ client = Essabu()  # reads from environment
 | `max_retries` | `ESSABU_MAX_RETRIES`| `3`                      | Max retry attempts       |
 
 ## Basic Usage
+
+Initialize the client and perform standard CRUD operations on any module resource. The example below demonstrates creating an employee, listing with pagination, retrieving by ID, updating, and deleting. All `create` and `update` methods accept keyword arguments matching the API fields and return a dictionary. The `delete` method performs a soft delete and returns a confirmation.
 
 ```python
 from essabu import Essabu
@@ -77,6 +87,8 @@ client.close()
 
 ## Context Manager
 
+Use the context manager pattern to ensure the HTTP client is properly closed when done, even if an exception occurs. The `with` statement calls `client.close()` automatically when the block exits. This is the recommended approach for scripts and short-lived operations.
+
 ```python
 with Essabu(api_key="esa_live_xxx", tenant_id="tenant-id") as client:
     employees = client.hr.employees.list()
@@ -84,6 +96,8 @@ with Essabu(api_key="esa_live_xxx", tenant_id="tenant-id") as client:
 ```
 
 ## Error Handling
+
+The SDK provides a hierarchy of typed exceptions for different HTTP error codes. Import the specific exceptions you want to handle from `essabu.common.exceptions`. Each exception exposes `status_code`, `message`, and (for `ValidationError`) an `errors` list with per-field details. Always catch `EssabuError` as the fallback to handle unexpected API errors.
 
 ```python
 from essabu.common.exceptions import (
@@ -109,6 +123,8 @@ except EssabuError as e:
 ```
 
 ## Pagination
+
+All `list()` methods return a `PageResponse` with metadata such as `total`, `page`, `total_pages`, and `has_next`. Use `list_all()` to get a generator that automatically iterates through every page. The `page_size` parameter controls how many items are fetched per request (default 25, maximum 100).
 
 ```python
 # Single page

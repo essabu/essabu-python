@@ -25,7 +25,7 @@ CRM and commerce: customers, contacts, opportunities, sales orders, purchase ord
 
 ## Standard CRUD Methods
 
-Every class provides:
+Every class provides these standard methods for paginated listing, full-page iteration, creation, retrieval by ID, update, and soft deletion. The `list` method accepts optional keyword filters such as `status`, `customer_id`, or `category`. The `list_all` method returns a generator that automatically fetches every page. All write methods return the created or updated resource as a dictionary.
 
 ```python
 list(*, page: int = 1, page_size: int = 25, **filters: Any) -> PageResponse
@@ -39,6 +39,8 @@ delete(resource_id: str) -> dict[str, Any]
 ## Code Examples
 
 ### Customer Management
+
+Create, list, update, and delete customer records. The `create` method requires `name` and `email`, with optional fields like `phone`, `address`, and `industry`. The `list` method supports filtering by `status` (e.g., `"active"`, `"inactive"`) and returns paginated results. The `delete` method performs a soft delete, preserving the customer record for historical reference while hiding it from active lists.
 
 ```python
 from essabu import Essabu
@@ -58,6 +60,8 @@ client.trade.customers.delete("cust-uuid")
 
 ### Contacts
 
+Manage contact persons associated with customer organizations. The `create` method requires `customer_id`, `first_name`, `last_name`, and `email`, with optional `phone` and `role` fields. Use the `list` method with a `customer_id` filter to retrieve all contacts for a specific customer. Each contact can be linked to opportunities and activities for CRM tracking.
+
 ```python
 contacts = client.trade.contacts.list(customer_id="cust-uuid")
 contact = client.trade.contacts.create(
@@ -70,6 +74,8 @@ contact = client.trade.contacts.create(
 ```
 
 ### Opportunities (Pipeline)
+
+Create and manage sales opportunities through the CRM pipeline. The `create` method requires `title`, `customer_id`, `value`, `currency`, and `stage` (e.g., `"qualification"`, `"proposal"`, `"negotiation"`, `"closed_won"`, `"closed_lost"`). The optional `expected_close` date helps with forecasting. Use `update` to advance opportunities through pipeline stages. The `list` method filters by `stage` to view opportunities at each pipeline phase.
 
 ```python
 opportunities = client.trade.opportunities.list(stage="negotiation")
@@ -86,6 +92,8 @@ client.trade.opportunities.update("opp-uuid", stage="proposal")
 
 ### Sales Orders
 
+Create sales orders with line items for fulfillment. The `create` method requires `customer_id` and a `lines` list where each line specifies `product_id`, `quantity`, and `unit_price`. The order total is calculated automatically from the line items. Use the `list` method with a `status` filter (e.g., `"pending"`, `"confirmed"`, `"shipped"`, `"delivered"`) to track orders through the fulfillment pipeline.
+
 ```python
 order = client.trade.sales_orders.create(
     customer_id="cust-uuid",
@@ -97,6 +105,8 @@ orders = client.trade.sales_orders.list(status="pending")
 ```
 
 ### Products and Suppliers
+
+Manage the product catalog and supplier directory. The `products.create` method requires `name`, `sku` (unique stock-keeping unit), `price`, and `currency`, with optional `category` for filtering. The `suppliers.create` method registers a new supplier with `name`, `email`, and `country`. Both resources support standard CRUD operations and can be linked to purchase orders and inventory records.
 
 ```python
 products = client.trade.products.list(category="electronics")
@@ -116,6 +126,8 @@ supplier = client.trade.suppliers.create(
 
 ### Purchase Orders and Deliveries
 
+Create purchase orders for suppliers and track deliveries. The `purchase_orders.create` method requires `supplier_id` and a `lines` list with `product_id`, `quantity`, and `unit_price`. The `deliveries.create` method links a delivery to an order with `carrier` and `tracking_number` for shipment tracking. Delivery status updates automatically as tracking events are received from the carrier.
+
 ```python
 po = client.trade.purchase_orders.create(
     supplier_id="sup-uuid",
@@ -130,12 +142,16 @@ delivery = client.trade.deliveries.create(
 
 ### Warehouses and Stock
 
+Query warehouse locations and check stock levels for products. The `warehouses.list` method returns all configured warehouse locations. The `stock.list` method accepts `warehouse_id` and `product_id` filters to check current inventory levels at specific locations. Stock levels are updated automatically when sales orders are fulfilled, purchase orders are received, or stock adjustments are made.
+
 ```python
 warehouses = client.trade.warehouses.list()
 stock = client.trade.stock.list(warehouse_id="wh-uuid", product_id="prod-uuid")
 ```
 
 ### Campaigns and Activities
+
+Create marketing campaigns and log CRM activities for customer engagement tracking. The `campaigns.create` method requires `name`, `type` (e.g., `"email"`, `"phone"`, `"event"`), `start_date`, and `end_date`. The `activities.create` method logs customer interactions with `type` (e.g., `"call"`, `"meeting"`, `"email"`), `customer_id`, `description`, and `due_date`. Activities can be linked to opportunities for pipeline tracking.
 
 ```python
 campaign = client.trade.campaigns.create(
