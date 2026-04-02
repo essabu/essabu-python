@@ -19,6 +19,8 @@ Authentication, user management, roles, permissions, tenants, branches, API keys
 
 ## AuthApi Methods
 
+The `AuthApi` class provides methods for authentication flows including login, registration, token refresh, password reset, and email verification. These methods do not follow the standard CRUD pattern since authentication operates on tokens rather than resources. All methods return a dictionary; `login` and `refresh` return access and refresh tokens.
+
 ```python
 login(*, email: str, password: str, **data: Any) -> dict[str, Any]
     # POST /api/identity/auth/login
@@ -49,6 +51,8 @@ me() -> dict[str, Any]
 
 All other classes (`UserApi`, `RoleApi`, `PermissionApi`, `TenantApi`, `CompanyApi`, `BranchApi`, `ProfileApi`, `SessionApi`, `ApiKeyApi`) share:
 
+These methods provide paginated listing, full-page iteration, creation, retrieval by ID, update by ID, and soft deletion. The `list` method accepts optional `page`, `page_size`, and arbitrary filter keyword arguments. The `create` and `update` methods accept keyword arguments matching the resource fields and return the created or updated resource as a dictionary.
+
 ```python
 list(*, page: int = 1, page_size: int = 25, **filters: Any) -> PageResponse
 list_all(*, page_size: int = 25, **filters: Any) -> Generator[PageResponse, None, None]
@@ -61,6 +65,8 @@ delete(resource_id: str) -> dict[str, Any]
 ## Code Examples
 
 ### Authentication
+
+Authenticate a user with email and password, then demonstrate the full token lifecycle including retrieval of the current user profile, token refresh, password reset flow, email verification, and logout. The `login` method returns `accessToken` and `refreshToken` fields. Throws `AuthenticationError` if the credentials are invalid or the account is locked.
 
 ```python
 from essabu import Essabu
@@ -91,6 +97,8 @@ client.identity.auth.logout()
 
 ### User Management
 
+List, create, update, and delete user accounts. The `list` method supports pagination with `page` and `page_size` parameters. The `create` method requires `email`, `first_name`, `last_name`, and optionally `role_id` to assign an initial role. Returns the full user object including the generated `id`. Throws `ValidationError` if the email is already in use or required fields are missing.
+
 ```python
 users = client.identity.users.list(page=1, page_size=20)
 user = client.identity.users.create(
@@ -105,6 +113,8 @@ client.identity.users.delete("user-uuid")
 
 ### Roles and Permissions
 
+Create and list roles with associated permissions. A role groups one or more permission strings (e.g., `"accounting.read"`, `"reports.view"`) that control access across the platform. The `permissions` parameter accepts a list of permission identifier strings. Use `client.identity.permissions.list()` to discover all available permission identifiers.
+
 ```python
 roles = client.identity.roles.list()
 role = client.identity.roles.create(
@@ -115,6 +125,8 @@ permissions = client.identity.permissions.list()
 ```
 
 ### Tenants and Branches
+
+Manage multi-tenant organizations and their physical branches. The `tenants.create` method provisions a new isolated tenant with the given name and subscription plan. The `branches.create` method adds a location under a specific tenant, requiring `name`, `address`, and `tenant_id`. Use `branches.list` with a `tenant_id` filter to retrieve all branches for a given tenant.
 
 ```python
 tenants = client.identity.tenants.list()
@@ -129,6 +141,8 @@ branch = client.identity.branches.create(
 
 ### API Keys
 
+Create and manage API keys for programmatic access. Each key has a `name` for identification and a list of `scopes` controlling which operations it can perform (e.g., `"read"`, `"write"`). The key secret is returned only once at creation time and cannot be retrieved later. Deleting a key immediately revokes all access associated with it.
+
 ```python
 keys = client.identity.api_keys.list()
 key = client.identity.api_keys.create(name="CI/CD Pipeline", scopes=["read", "write"])
@@ -136,6 +150,8 @@ client.identity.api_keys.delete("key-uuid")
 ```
 
 ### Sessions
+
+List and revoke active user sessions. Use the `user_id` filter to retrieve all sessions for a specific user. Each session includes metadata such as IP address, user agent, and last activity timestamp. Deleting a session immediately invalidates the associated access token, forcing the user to re-authenticate.
 
 ```python
 sessions = client.identity.sessions.list(user_id="user-uuid")
