@@ -1,0 +1,36 @@
+"""API for config in the accounting module."""
+
+from __future__ import annotations
+
+from typing import Any, Generator
+
+from essabu.common.models import PageResponse
+from essabu.accounting.api.base import BaseAccountingApi
+
+
+class ConfigApi(BaseAccountingApi):
+    """CRUD operations for config."""
+
+    def list(self, *, page: int = 1, page_size: int = 25, **filters: Any) -> PageResponse:
+        """List config with pagination."""
+        return self._list(self._path("config"), page=page, page_size=page_size, params=filters or None)
+
+    def list_all(self, *, page_size: int = 25, **filters: Any) -> Generator[PageResponse, None, None]:
+        """Iterate over all pages of config."""
+        return self._list_all(self._path("config"), page_size=page_size, params=filters or None)
+
+    def create(self, **data: Any) -> dict[str, Any]:
+        """Create a new config."""
+        return self._create(self._path("config"), data)
+
+    def retrieve(self, resource_id: str) -> dict[str, Any]:
+        """Retrieve a config by ID."""
+        return self._retrieve(self._path("config", resource_id))
+
+    def update(self, resource_id: str, **data: Any) -> dict[str, Any]:
+        """Update a config."""
+        return self._update(self._path("config", resource_id), data)
+
+    def delete(self, resource_id: str) -> dict[str, Any]:
+        """Delete a config."""
+        return self._delete(self._path("config", resource_id))
