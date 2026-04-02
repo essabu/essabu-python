@@ -7,12 +7,12 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
-    from essabu.project.api.projects import ProjectApi
-    from essabu.project.api.tasks import TaskApi
     from essabu.project.api.milestones import MilestoneApi
+    from essabu.project.api.projects import ProjectApi
+    from essabu.project.api.reports import ReportApi
     from essabu.project.api.resource_allocations import ResourceAllocationApi
     from essabu.project.api.task_comments import TaskCommentApi
-    from essabu.project.api.reports import ReportApi
+    from essabu.project.api.tasks import TaskApi
 
 
 class ProjectClient:

@@ -20,7 +20,10 @@ class TestProjects:
     @respx.mock
     def test_list_projects(self, client):
         respx.get("https://api.test.com/api/project/projects").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "prj-1"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "prj-1"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.project.projects.list()
         assert len(result.data) == 1

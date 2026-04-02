@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Generator
+from collections.abc import Generator
+from typing import Any
 
 from essabu.common.models import PageResponse
 from essabu.einvoice.api.base import BaseEinvoiceApi

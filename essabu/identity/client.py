@@ -7,16 +7,16 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
+    from essabu.identity.api.api_keys import ApiKeyApi
     from essabu.identity.api.auth import AuthApi
-    from essabu.identity.api.users import UserApi
-    from essabu.identity.api.roles import RoleApi
-    from essabu.identity.api.tenants import TenantApi
     from essabu.identity.api.branches import BranchApi
     from essabu.identity.api.companies import CompanyApi
     from essabu.identity.api.permissions import PermissionApi
     from essabu.identity.api.profiles import ProfileApi
+    from essabu.identity.api.roles import RoleApi
     from essabu.identity.api.sessions import SessionApi
-    from essabu.identity.api.api_keys import ApiKeyApi
+    from essabu.identity.api.tenants import TenantApi
+    from essabu.identity.api.users import UserApi
 
 
 class IdentityClient:

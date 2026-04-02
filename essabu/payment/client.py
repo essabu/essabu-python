@@ -7,20 +7,20 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
-    from essabu.payment.api.payment_intents import PaymentIntentApi
-    from essabu.payment.api.payment_accounts import PaymentAccountApi
-    from essabu.payment.api.transactions import TransactionApi
-    from essabu.payment.api.refunds import RefundApi
-    from essabu.payment.api.subscriptions import SubscriptionApi
-    from essabu.payment.api.subscription_plans import SubscriptionPlanApi
-    from essabu.payment.api.loan_applications import LoanApplicationApi
-    from essabu.payment.api.loan_products import LoanProductApi
-    from essabu.payment.api.loan_repayments import LoanRepaymentApi
     from essabu.payment.api.collaterals import CollateralApi
     from essabu.payment.api.financial_accounts import FinancialAccountApi
     from essabu.payment.api.kyc_documents import KycDocumentApi
     from essabu.payment.api.kyc_profiles import KycProfileApi
+    from essabu.payment.api.loan_applications import LoanApplicationApi
+    from essabu.payment.api.loan_products import LoanProductApi
+    from essabu.payment.api.loan_repayments import LoanRepaymentApi
+    from essabu.payment.api.payment_accounts import PaymentAccountApi
+    from essabu.payment.api.payment_intents import PaymentIntentApi
+    from essabu.payment.api.refunds import RefundApi
     from essabu.payment.api.reports import ReportApi
+    from essabu.payment.api.subscription_plans import SubscriptionPlanApi
+    from essabu.payment.api.subscriptions import SubscriptionApi
+    from essabu.payment.api.transactions import TransactionApi
 
 
 class PaymentClient:

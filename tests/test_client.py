@@ -8,14 +8,14 @@ from unittest.mock import patch
 import pytest
 
 from essabu import Essabu, EssabuConfig
-from essabu.hr.client import HRClient
 from essabu.accounting.client import AccountingClient
-from essabu.identity.client import IdentityClient
-from essabu.trade.client import TradeClient
-from essabu.payment.client import PaymentClient
-from essabu.einvoice.client import EInvoiceClient
-from essabu.project.client import ProjectClient
 from essabu.asset.client import AssetClient
+from essabu.einvoice.client import EInvoiceClient
+from essabu.hr.client import HRClient
+from essabu.identity.client import IdentityClient
+from essabu.payment.client import PaymentClient
+from essabu.project.client import ProjectClient
+from essabu.trade.client import TradeClient
 
 
 class TestEssabuConfig:

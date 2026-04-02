@@ -44,7 +44,10 @@ class TestAccountingAccounts:
     @respx.mock
     def test_list_accounts(self, client):
         respx.get("https://api.test.com/api/accounting/accounts").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "acc-1", "code": "1000"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "acc-1", "code": "1000"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.accounting.accounts.list()
         assert result.data[0]["code"] == "1000"
@@ -64,7 +67,10 @@ class TestAccountingWallets:
     @respx.mock
     def test_list_wallets(self, client):
         respx.get("https://api.test.com/api/accounting/wallets").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "w-1"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "w-1"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.accounting.wallets.list()
         assert len(result.data) == 1

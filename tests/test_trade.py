@@ -20,7 +20,10 @@ class TestTradeCustomers:
     @respx.mock
     def test_list_customers(self, client):
         respx.get("https://api.test.com/api/trade/customers").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "c-1", "name": "Acme"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "c-1", "name": "Acme"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.trade.customers.list()
         assert result.data[0]["name"] == "Acme"
@@ -38,7 +41,10 @@ class TestTradeOpportunities:
     @respx.mock
     def test_list_opportunities(self, client):
         respx.get("https://api.test.com/api/trade/opportunities").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "opp-1", "value": "10000"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "opp-1", "value": "10000"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.trade.opportunities.list()
         assert len(result.data) == 1

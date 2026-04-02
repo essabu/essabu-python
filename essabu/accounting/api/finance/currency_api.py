@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Any, Generator
+from collections.abc import Generator
+from typing import Any
 
-from essabu.common.models import PageResponse
 from essabu.accounting.api.base import BaseAccountingApi
+from essabu.common.models import PageResponse
 
 
 class CurrencyApi(BaseAccountingApi):

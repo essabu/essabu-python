@@ -20,7 +20,10 @@ class TestAssets:
     @respx.mock
     def test_list_assets(self, client):
         respx.get("https://api.test.com/api/asset/assets").mock(
-            return_value=httpx.Response(200, json={"data": [{"id": "a-1", "name": "Laptop"}], "total": 1, "page": 1, "pageSize": 25, "totalPages": 1})
+            return_value=httpx.Response(200, json={
+                "data": [{"id": "a-1", "name": "Laptop"}],
+                "total": 1, "page": 1, "pageSize": 25, "totalPages": 1,
+            })
         )
         result = client.asset.assets.list()
         assert result.data[0]["name"] == "Laptop"

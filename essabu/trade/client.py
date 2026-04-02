@@ -7,21 +7,21 @@ from typing import TYPE_CHECKING
 from essabu.common.http_client import HttpClient
 
 if TYPE_CHECKING:
-    from essabu.trade.api.customers import CustomerApi
-    from essabu.trade.api.contacts import ContactApi
-    from essabu.trade.api.opportunities import OpportunityApi
-    from essabu.trade.api.products import ProductApi
-    from essabu.trade.api.sales_orders import SalesOrderApi
-    from essabu.trade.api.purchase_orders import PurchaseOrderApi
-    from essabu.trade.api.deliveries import DeliveryApi
-    from essabu.trade.api.suppliers import SupplierApi
-    from essabu.trade.api.campaigns import CampaignApi
     from essabu.trade.api.activities import ActivityApi
+    from essabu.trade.api.campaigns import CampaignApi
+    from essabu.trade.api.contacts import ContactApi
     from essabu.trade.api.contracts import ContractApi
+    from essabu.trade.api.customers import CustomerApi
+    from essabu.trade.api.deliveries import DeliveryApi
     from essabu.trade.api.documents import DocumentApi
     from essabu.trade.api.inventory import InventoryApi
+    from essabu.trade.api.opportunities import OpportunityApi
+    from essabu.trade.api.products import ProductApi
+    from essabu.trade.api.purchase_orders import PurchaseOrderApi
     from essabu.trade.api.receipts import ReceiptApi
+    from essabu.trade.api.sales_orders import SalesOrderApi
     from essabu.trade.api.stock import StockApi
+    from essabu.trade.api.suppliers import SupplierApi
     from essabu.trade.api.warehouses import WarehouseApi
 
 
