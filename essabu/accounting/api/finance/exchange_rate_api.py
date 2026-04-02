@@ -1,0 +1,26 @@
+"""API client for managing exchange rate resources."""
+from __future__ import annotations
+from typing import Any
+from essabu.accounting.api.base_api import BaseApi
+from essabu.common.http_client import HttpClient
+
+class ExchangeRateApi(BaseApi):
+    """API client for managing exchange rate resources. Base path: /api/accounting/exchange-rates"""
+    BASE_PATH = "/api/accounting/exchange-rates"
+    def __init__(self, http: HttpClient) -> None:
+        super().__init__(http)
+    def create(self, request: dict[str, Any]) -> dict[str, Any]:
+        return self._http.post(self.BASE_PATH, request)
+    def get(self, rate_id: str) -> dict[str, Any]:
+        return self._http.get(f"{self.BASE_PATH}/{rate_id}")
+    def list(self, company_id: str) -> list[dict[str, Any]]:
+        return self._http.get(f"{self.BASE_PATH}?companyId={company_id}")
+    def update(self, rate_id: str, request: dict[str, Any]) -> dict[str, Any]:
+        return self._http.put(f"{self.BASE_PATH}/{rate_id}", request)
+    def delete(self, rate_id: str) -> None:
+        self._http.delete(f"{self.BASE_PATH}/{rate_id}")
+    def fetch(self, company_id: str, source_currency: str, target_currency: str) -> dict[str, Any]:
+        return self._http.get(
+            f"{self.BASE_PATH}/fetch?companyId={company_id}"
+            f"&sourceCurrency={source_currency}&targetCurrency={target_currency}"
+        )
