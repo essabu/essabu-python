@@ -458,21 +458,18 @@ except EssabuError as e:
 
 ## Async Support
 
-The SDK is built on `httpx`, which provides both sync and async HTTP clients. The default client uses synchronous operations. For async usage, the underlying `httpx.AsyncClient` can be leveraged:
+> **Note:** The SDK currently provides a synchronous API only. Async support is planned for a future release.
 
-Initialize the client as usual and call SDK methods within an `async` function. The client can be used in both sync and async contexts. Remember to call `client.close()` when done to release the underlying HTTP connection pool. For long-running async applications, consider using the context manager pattern within an async context.
+The SDK is built on `httpx`, which supports both sync and async HTTP clients. Today, all SDK methods are synchronous. You can safely call them from synchronous code or wrap them with an executor if needed in an async context.
 
 ```python
-import asyncio
 from essabu import Essabu
 
-async def main():
-    client = Essabu(api_key="esa_live_xxx", tenant_id="tenant-id")
-    employees = client.hr.employees.list(page_size=10)
-    print(f"Found {employees.total} employees")
-    client.close()
-
-asyncio.run(main())
+# Synchronous usage (current API)
+client = Essabu(api_key="esa_live_xxx", tenant_id="tenant-id")
+employees = client.hr.employees.list(page_size=10)
+print(f"Found {employees.total} employees")
+client.close()
 ```
 
 ---

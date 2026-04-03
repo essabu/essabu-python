@@ -8,6 +8,8 @@ import respx
 
 from essabu.common.exceptions import (
     AuthenticationError,
+    BadRequestError,
+    ConflictError,
     NotFoundError,
     RateLimitError,
     ServerError,
@@ -55,6 +57,14 @@ class TestHttpClient:
         assert result == {}
 
     @respx.mock
+    def test_400_raises_bad_request_error(self, http):
+        respx.post("https://api.test.com/api/test").mock(
+            return_value=httpx.Response(400, json={"message": "Malformed request body"})
+        )
+        with pytest.raises(BadRequestError, match="Malformed request body"):
+            http.post("/api/test", json={})
+
+    @respx.mock
     def test_401_raises_authentication_error(self, http):
         respx.get("https://api.test.com/api/test").mock(
             return_value=httpx.Response(401, json={"message": "Invalid token"})
@@ -69,6 +79,14 @@ class TestHttpClient:
         )
         with pytest.raises(NotFoundError):
             http.get("/api/test/999")
+
+    @respx.mock
+    def test_409_raises_conflict_error(self, http):
+        respx.post("https://api.test.com/api/test").mock(
+            return_value=httpx.Response(409, json={"message": "Resource already exists"})
+        )
+        with pytest.raises(ConflictError, match="Resource already exists"):
+            http.post("/api/test", json={})
 
     @respx.mock
     def test_422_raises_validation_error(self, http):
