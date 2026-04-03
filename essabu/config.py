@@ -22,6 +22,8 @@ class EssabuConfig:
     tenant_id: str = field(default_factory=lambda: os.environ.get("ESSABU_TENANT_ID", ""))
     base_url: str = field(default_factory=lambda: os.environ.get("ESSABU_BASE_URL", "https://api.essabu.com"))
     timeout: float = field(default_factory=lambda: float(os.environ.get("ESSABU_TIMEOUT", "30.0")))
+    connect_timeout: float | None = None  # Falls back to timeout
+    read_timeout: float | None = None  # Falls back to timeout
     max_retries: int = field(default_factory=lambda: int(os.environ.get("ESSABU_MAX_RETRIES", "3")))
 
     def __post_init__(self) -> None:

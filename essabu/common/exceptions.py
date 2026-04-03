@@ -25,6 +25,13 @@ class EssabuError(Exception):
         return f"{self.__class__.__name__}(message={self.message!r}, status_code={self.status_code})"
 
 
+class BadRequestError(EssabuError):
+    """Raised when the request is malformed (400)."""
+
+    def __init__(self, message: str = "Bad request", **kwargs: Any) -> None:
+        super().__init__(message=message, status_code=400, **kwargs)
+
+
 class AuthenticationError(EssabuError):
     """Raised when authentication fails (401)."""
 

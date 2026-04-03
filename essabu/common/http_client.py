@@ -12,6 +12,7 @@ from essabu.common.auth import build_auth_headers
 from essabu.common.exceptions import (
     AuthenticationError,
     AuthorizationError,
+    BadRequestError,
     ConflictError,
     EssabuError,
     NotFoundError,
@@ -23,6 +24,7 @@ from essabu.common.models import PageRequest, PageResponse
 from essabu.config import EssabuConfig
 
 _STATUS_MAP: dict[int, type[EssabuError]] = {
+    400: BadRequestError,
     401: AuthenticationError,
     403: AuthorizationError,
     404: NotFoundError,
@@ -45,7 +47,11 @@ class HttpClient:
             self._client = httpx.Client(
                 base_url=self._config.base_url,
                 headers=build_auth_headers(self._config),
-                timeout=httpx.Timeout(self._config.timeout),
+                timeout=httpx.Timeout(
+                    timeout=self._config.timeout,
+                    connect=self._config.connect_timeout or self._config.timeout,
+                    read=self._config.read_timeout or self._config.timeout,
+                ),
             )
         return self._client
 

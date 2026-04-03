@@ -2,6 +2,7 @@
 
 from essabu.common.exceptions import (
     AuthenticationError,
+    BadRequestError,
     EssabuError,
     NotFoundError,
     RateLimitError,
@@ -11,6 +12,7 @@ from essabu.common.exceptions import (
 from essabu.common.models import PageRequest, PageResponse
 
 __all__ = [
+    "BadRequestError",
     "EssabuError",
     "NotFoundError",
     "ValidationError",
